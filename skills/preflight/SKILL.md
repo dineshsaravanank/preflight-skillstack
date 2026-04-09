@@ -106,11 +106,17 @@ fi
    Read the pivot file. Ask: "You pivoted earlier. Want to restart the
    cycle with the new direction, or explore something completely new?"
 
-4. If **COMPLETED is 0/6** and **IDEA_COUNT > 0**: Ideas exist but no cycle
+4. If **COMPLETED is 0/6** and **HAS_TRACKER is yes**: A cycle was started
+   but no phase files produced yet. Read the tracker. Tell the user:
+   "You started a cycle but haven't completed any phases yet." Present
+   the PROGRESS CHECK and direct them to `/pf-assumption`. Do NOT
+   overwrite the existing tracker.
+
+5. If **COMPLETED is 0/6** and **IDEA_COUNT > 0**: Ideas exist but no cycle
    started. Read each ideate file and present the IDEAS MENU (see below).
    Ask the user if they want to double-click on one or start fresh.
 
-5. If **COMPLETED is 0/6** and **IDEA_COUNT is 0**: Fresh start. Proceed to CYCLE INTRO.
+6. If **COMPLETED is 0/6** and **IDEA_COUNT is 0**: Fresh start. Proceed to CYCLE INTRO.
 
 ---
 
