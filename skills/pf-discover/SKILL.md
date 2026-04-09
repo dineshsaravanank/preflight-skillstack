@@ -132,7 +132,7 @@ hint at ideas:
 
 ```bash
 # Only if gh CLI is available and authenticated
-if command -v gh &>/dev/null; then
+if command -v gh >/dev/null 2>&1; then
   gh issue list --limit 20 --state open --json number,title,labels,body 2>/dev/null || echo "GH_ISSUES: unavailable"
 fi
 ```
