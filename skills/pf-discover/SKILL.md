@@ -9,6 +9,7 @@ description: |
   Use when: "discover ideas", "what ideas are in this repo", "mine the docs",
   "find ideas", "what should we build", "scan for opportunities".
 allowed-tools:
+  - AskUserQuestion
   - Bash
   - Read
   - Glob
