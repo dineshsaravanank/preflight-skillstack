@@ -163,13 +163,13 @@ else
 fi
 echo ""
 
-# --- Test 5b: /pf-ideate saves to canonical ideate.md ---
+# --- Test 5b: /pf-ideate saves to canonical ideas.md ---
 echo "Canonical filename:"
 ideate_file="$SKILLS_DIR/pf-ideate/SKILL.md"
-if grep -q "SAVE_DIR/ideate.md" "$ideate_file"; then
-  pass "/pf-ideate saves to ideate.md (canonical)"
+if grep -q "SAVE_DIR/ideas.md" "$ideate_file"; then
+  pass "/pf-ideate saves to ideas.md (canonical)"
 else
-  fail "/pf-ideate doesn't save to canonical ideate.md"
+  fail "/pf-ideate doesn't save to canonical ideas.md"
 fi
 echo ""
 

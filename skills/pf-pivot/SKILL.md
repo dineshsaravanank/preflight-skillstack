@@ -47,7 +47,7 @@ else
 fi
 
 # Gather all prior context
-for f in ideate.md assumptions.md premortem.md compare.md personas.md scope.md; do
+for f in ideas.md assumptions.md premortem.md compare.md personas.md scope.md; do
   if [ -f "$_SAVE_DIR/$f" ]; then
     echo "HAS_$(echo "$f" | sed 's/.md//' | tr '[:lower:]' '[:upper:]'): yes"
   fi

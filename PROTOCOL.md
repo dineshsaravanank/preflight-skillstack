@@ -14,8 +14,8 @@ has responded and the session is wrapping up.
 SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [last phase completed — e.g., "Phase 3: SHARPEN"]
-ARTIFACTS: [files saved — e.g., ".preflight/ideate.md"]
-NEXT: [recommended next action — e.g., "Run /premortem"]
+ARTIFACTS: [files saved — e.g., ".preflight/ideas.md"]
+NEXT: [recommended next action — e.g., "Run /pf-premortem"]
 CONCERNS: [only if STATUS is DONE_WITH_CONCERNS — list unresolved items]
 ```
 

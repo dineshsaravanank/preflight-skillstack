@@ -36,14 +36,17 @@ echo "DATE: $_DATE"
 echo "SAVE_DIR: $_SAVE_DIR"
 echo "LOCATION: $_LOCATION"
 
-# Check for prior ideation files
-_PRIOR=$(find "$_SAVE_DIR" -name "*.md" -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
-echo "RECENT_SESSIONS: $_PRIOR"
-if [ "$_PRIOR" -gt 0 ]; then
-  echo "RECENT_FILES:"
-  for f in $(find "$_SAVE_DIR" -name "*.md" -maxdepth 1 2>/dev/null | sort -r | head -5); do
-    echo "  $(head -1 "$f" | sed 's/^# //') — $f"
-  done
+# Check for existing ideas in ideas.md
+echo ""
+echo "=== EXISTING IDEAS ==="
+if [ -f "$_SAVE_DIR/ideas.md" ]; then
+  echo "HAS_IDEAS_FILE: yes"
+  _IDEA_COUNT=$(grep -c '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true)
+  echo "IDEA_COUNT: $_IDEA_COUNT"
+  grep '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
+else
+  echo "HAS_IDEAS_FILE: no"
+  echo "IDEA_COUNT: 0"
 fi
 
 # Load shared voice and protocol
@@ -65,11 +68,12 @@ fi
 0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
    not found. Run `./setup` from the preflight repo to install them." Do NOT
    proceed without voice and protocol loaded.
-1. If **RECENT_SESSIONS** is greater than 0: **STOP.** Show the recent sessions
-   listed above (title and file path for each). Ask: "Found recent ideation
-   sessions. Want to continue one, or start fresh?" If continuing, read the
-   file and resume at the saved phase using the Resuming instructions below.
-2. If **RECENT_SESSIONS** is 0: Proceed to Phase 1.
+1. If **IDEA_COUNT** is greater than 0: **STOP.** Show the idea titles
+   listed above. Ask: "Found existing ideas. Want to continue one, or
+   start fresh?" If continuing, read the matching `##` section from
+   `ideas.md` and resume at the saved phase using the Resuming
+   instructions below.
+2. If **IDEA_COUNT** is 0: Proceed to Phase 1.
 
 **Your session ID is the value printed as SESSION above. Remember it — you will
 need it exactly when saving the session file.**
@@ -273,50 +277,57 @@ EXPERIMENT 2: ...
 
 ## Session save
 
-After any phase completes, save the session state to **two files**:
+After any phase completes, save the idea to `.preflight/ideas.md`.
+All ideas live in this one file — each idea is a `##` section.
 
-1. `SAVE_DIR/ideate.md` — the canonical file that all other skills read.
-   Always overwrite this with the latest state.
-2. `SAVE_DIR/ideate-SESSION_ID.md` — a timestamped copy for history.
-
-Use the SAVE_DIR and SESSION values from the bash output above.
+If the file doesn't exist yet, create it with a header:
 
 ```bash
-cat > SAVE_DIR/ideate.md << 'HEREDOC'
-# Ideation: ONE_LINER_OR_TOPIC
+if [ ! -f SAVE_DIR/ideas.md ]; then
+  cat > SAVE_DIR/ideas.md << 'HEREDOC'
+# Ideas: PROJECT_NAME
+Last updated: DATE
+HEREDOC
+fi
+```
+
+**New idea:** Append a `##` section:
+
+```bash
+cat >> SAVE_DIR/ideas.md << 'HEREDOC'
+
+## ONE_LINER_OR_TOPIC
 Date: DATE_FROM_BASH_OUTPUT
 Phase: CURRENT_PHASE
-Project: PROJECT_NAME
+Source: ideate
 
-## Snapshot
+### Snapshot
 (paste the IDEA SNAPSHOT here)
 
-## Challenge Results
+### Challenge Results
 (paste if completed)
 
-## Sharpened Idea
+### Sharpened Idea
 (paste if completed)
 
-## Validation Plan
+### Validation Plan
 (paste if completed)
 HEREDOC
 ```
 
-Then copy to the timestamped file for history:
+**Updating an existing idea:** Read `ideas.md`, find the matching `##`
+section, replace it in place with the updated content. Update the
+`Last updated` line in the file header.
 
-```bash
-cp SAVE_DIR/ideate.md SAVE_DIR/ideate-SESSION_ID.md
-```
-
-Replace SAVE_DIR, SESSION_ID, ONE_LINER_OR_TOPIC, DATE_FROM_BASH_OUTPUT,
+Replace SAVE_DIR, ONE_LINER_OR_TOPIC, DATE_FROM_BASH_OUTPUT,
 CURRENT_PHASE, and PROJECT_NAME with actual values from the conversation
 and the bash output above.
 
 ## Resuming a session
 
-When the user chooses to continue a prior session:
+When the user chooses to continue a prior idea:
 
-1. Read the session file.
+1. Read the matching `##` section from `ideas.md`.
 2. **STOP.** Summarize where you left off in 2-3 sentences: what the idea is,
    which phase was completed, and what the next question or step is.
 3. Ask: "Ready to pick up here?" Then continue from the next incomplete phase.
@@ -331,8 +342,8 @@ After the final phase (or if the session ends early), present:
 SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [last phase completed]
-ARTIFACTS: [files saved — e.g., ".preflight/ideate.md"]
-NEXT: [recommended next action — e.g., "Run /premortem"]
+ARTIFACTS: [files saved — ".preflight/ideas.md"]
+NEXT: [recommended next action — e.g., "Run /pf-premortem"]
 CONCERNS: [only if DONE_WITH_CONCERNS — list unresolved items]
 ```
 

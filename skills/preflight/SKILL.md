@@ -61,18 +61,18 @@ done
 echo ""
 echo "COMPLETED: $_COMPLETED / $_TOTAL"
 
-# Check for existing ideas (ideate files)
-_IDEA_COUNT=$(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" 2>/dev/null | grep -c . 2>/dev/null || true)
+# Check for existing ideas in the canonical ideas.md
 echo ""
 echo "=== EXISTING IDEAS ==="
-echo "IDEA_COUNT: $_IDEA_COUNT"
-if [ "$_IDEA_COUNT" -gt 0 ]; then
-  for f in "$_SAVE_DIR"/ideate*.md; do
-    [ -f "$f" ] || continue
-    _TITLE=$(head -1 "$f" | sed 's/^# //')
-    _PHASE=$(grep -m1 '^Phase:' "$f" 2>/dev/null | sed 's/^Phase: //')
-    echo "  $_TITLE | Phase: $_PHASE | $f"
-  done
+if [ -f "$_SAVE_DIR/ideas.md" ]; then
+  echo "HAS_IDEAS_FILE: yes"
+  _IDEA_COUNT=$(grep -c '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true)
+  echo "IDEA_COUNT: $_IDEA_COUNT"
+  # Show each idea heading with its source tag
+  grep '^## \|^Source: \|^Phase: ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
+else
+  echo "HAS_IDEAS_FILE: no"
+  echo "IDEA_COUNT: 0"
 fi
 
 # Check for pivot
@@ -150,10 +150,9 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 ## IDEAS MENU (when existing ideas found)
 
-Read each ideate file listed in EXISTING IDEAS above. For each idea, extract
-the one-liner (or title) and the phase it reached. Check which sections
-have content vs. placeholder text (e.g., "needs /pf-ideate"). Present
-them as a numbered list:
+Read `.preflight/ideas.md`. Each `##` heading is a separate idea. For each,
+extract the title and check which fields have content vs. placeholder
+text (e.g., "needs /pf-ideate"). Present them as a numbered list:
 
 ```
 EXISTING IDEAS IN THIS PROJECT
@@ -248,7 +247,7 @@ Read the tracker and any completed phase files. Present:
 ```
 CYCLE PROGRESS: [X] / 6 complete
 
-IDEA: [one-sentence summary from ideate.md or user description]
+IDEA: [one-sentence summary from ideas.md or user description]
 
 DONE:
   ✓ [phase] — [one-line summary of key finding]
@@ -306,14 +305,14 @@ Read ALL files in SAVE_DIR. Present a consolidated view:
 ```
 IDEATION CYCLE: COMPLETE
 
-IDEA: [one-liner from ideate.md]
+IDEA: [one-liner from ideas.md]
 
 ASSUMPTIONS TESTED:
   Critical unknowns: [list the FATAL + HOPED items]
   Status: [tested / untested / partially validated]
 
 VALIDATION:
-  Survived challenges: [from ideate.md]
+  Survived challenges: [from ideas.md]
   Kill signals: [any unresolved risks]
 
 FAILURE RISKS:

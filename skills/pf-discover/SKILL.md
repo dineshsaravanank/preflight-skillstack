@@ -34,15 +34,17 @@ else
   echo "SAVE_DIR: $_SAVE_DIR"
   echo "ROOT: $_ROOT"
 
-  # Count all existing ideas (from discover AND manual ideation) to avoid duplicates
-  _EXISTING=$(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" 2>/dev/null | wc -l | tr -d ' ')
-  echo "EXISTING_IDEAS: $_EXISTING"
-  if [ "$_EXISTING" -gt 0 ]; then
-    echo "EXISTING_FILES:"
-    for f in "$_SAVE_DIR"/ideate*.md; do
-      [ -f "$f" ] || continue
-      echo "  $(head -1 "$f" | sed 's/^# //') — $f"
-    done
+  # Check existing ideas in the canonical ideas.md
+  echo ""
+  echo "=== EXISTING IDEAS ==="
+  if [ -f "$_SAVE_DIR/ideas.md" ]; then
+    echo "HAS_IDEAS_FILE: yes"
+    _EXISTING=$(grep -c '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true)
+    echo "EXISTING_COUNT: $_EXISTING"
+    grep '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
+  else
+    echo "HAS_IDEAS_FILE: no"
+    echo "EXISTING_COUNT: 0"
   fi
 
   # Load shared voice and protocol
@@ -93,9 +95,9 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 - **Always cite your source.** Every idea must reference the file and
   line (or section) where you found the signal.
-- **No duplicates.** If an idea already exists in any `.preflight/ideate*.md`
-  file (whether from discover or manual ideation), skip it. Check
-  `EXISTING_IDEAS` and read those files first to avoid overlap.
+- **No duplicates.** Read `.preflight/ideas.md` first. If an idea
+  already exists as a `##` section there, skip it. Check `EXISTING_COUNT`
+  to know how many ideas are already tracked.
 
 ---
 
@@ -174,51 +176,60 @@ them, or pick the ones worth exploring?"
 
 ## SAVE phase
 
-For each idea the user approves (or all, if they say save all), write
-an ideate file in the preflight format:
+For each idea the user approves (or all, if they say save all), append
+a section to `.preflight/ideas.md`. If the file doesn't exist yet,
+create it with a header first:
 
 ```bash
-cat > SAVE_DIR/ideate-discover-IDEA_SLUG.md << 'HEREDOC'
-# Ideation: IDEA_TITLE
+# Create ideas.md with header if it doesn't exist
+if [ ! -f SAVE_DIR/ideas.md ]; then
+  cat > SAVE_DIR/ideas.md << 'HEREDOC'
+# Ideas: PROJECT_NAME
+Last updated: DATE
+HEREDOC
+fi
+```
+
+Then append each idea as a `##` section:
+
+```bash
+cat >> SAVE_DIR/ideas.md << 'HEREDOC'
+
+## IDEA_TITLE
 Date: DATE
 Phase: Discovered
-Project: PROJECT_NAME
 Source: discover
 
-## Snapshot
+### Snapshot
 WHO: [from extraction, or "needs /pf-ideate"]
 TODAY: [from extraction, or "needs /pf-ideate"]
 WHY NOW: [from extraction, or "needs /pf-ideate"]
 MAGIC MOMENT: [needs /pf-ideate]
 EVIDENCE: repo-signals
 
-## Source Evidence
+### Source Evidence
 [file:line — exact quote for each signal that supports this idea]
 
-## Challenge Results
+### Challenge Results
 (needs /pf-ideate)
 
-## Sharpened Idea
+### Sharpened Idea
 (needs /pf-ideate)
 
-## Validation Plan
+### Validation Plan
 (needs /pf-ideate)
 HEREDOC
 ```
 
-Use a slugified version of the idea title for IDEA_SLUG (lowercase,
-hyphens, no spaces). Replace SAVE_DIR, DATE, PROJECT_NAME with
-actual values from the bash output.
+Replace SAVE_DIR, DATE, PROJECT_NAME, IDEA_TITLE with actual values
+from the bash output and extraction.
 
-After saving, present:
+After saving, update the `Last updated` line in the file header.
+
+Present:
 
 ```
-SAVED [N] IDEAS TO .preflight/
-
-Files:
-  .preflight/ideate-discover-[slug].md
-  .preflight/ideate-discover-[slug].md
-  ...
+SAVED [N] IDEAS TO .preflight/ideas.md
 ```
 
 Then: "Run `/preflight` to pick one and start the validation cycle."
