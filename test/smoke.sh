@@ -77,7 +77,7 @@ for skill in ideate assumption premortem compare personas scope pivot ideate-sta
     fi
   fi
 
-  # VOICE/PROTOCOL loading
+  # VOICE/PROTOCOL loading with gate
   if grep -q "VOICE.md" "$file"; then
     pass "$skill: loads VOICE.md"
   else
@@ -88,6 +88,13 @@ for skill in ideate assumption premortem compare personas scope pivot ideate-sta
     pass "$skill: loads PROTOCOL.md"
   else
     fail "$skill: doesn't load PROTOCOL.md"
+  fi
+
+  # SHARED_LOADED gate
+  if grep -q "SHARED_LOADED" "$file"; then
+    pass "$skill: gates on SHARED_LOADED"
+  else
+    fail "$skill: missing SHARED_LOADED gate"
   fi
 
   # Completion protocol
@@ -148,6 +155,21 @@ if grep -q "Re-ground" "$proto"; then
   pass "has re-grounding rule"
 else
   fail "missing re-grounding rule"
+fi
+if grep -q "AskUserQuestion" "$proto"; then
+  pass "has AskUserQuestion guidance"
+else
+  fail "missing AskUserQuestion guidance"
+fi
+echo ""
+
+# --- Test 5b: /ideate saves to canonical ideate.md ---
+echo "Canonical filename:"
+ideate_file="$SKILLS_DIR/ideate/SKILL.md"
+if grep -q "SAVE_DIR/ideate.md" "$ideate_file"; then
+  pass "/ideate saves to ideate.md (canonical)"
+else
+  fail "/ideate doesn't save to canonical ideate.md"
 fi
 echo ""
 

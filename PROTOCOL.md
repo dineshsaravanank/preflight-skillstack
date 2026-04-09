@@ -69,9 +69,18 @@ questions, STOP-point questions, and any clarifying question.
 > B) Something's wrong — let me correct it
 > C) I want to rethink the whole thing
 
+**When to use AskUserQuestion vs. inline questions:**
+
+- **Use AskUserQuestion** when the answer determines which path the skill
+  takes next — branching decisions like "continue or pivot?", "which phase
+  to revisit?", mode selection. These are structural choices.
+- **Use inline questions** for everything else — phase questions, follow-ups,
+  clarifications, confirmations. Most questions in a session are inline.
+
 **Anti-patterns — never do these:**
 
 - Asking 2+ questions in one response
 - Asking without re-grounding first
 - Offering options without a recommendation when you have one
-- Using AskUserQuestion tool for simple yes/no — just ask inline
+- Using AskUserQuestion for simple yes/no — just ask inline
+- Using inline questions for branching decisions — use AskUserQuestion

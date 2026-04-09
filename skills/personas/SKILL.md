@@ -48,15 +48,23 @@ fi
 
 # Load shared voice and protocol
 echo ""
-echo "=== VOICE ==="
-cat ~/.ideate/VOICE.md 2>/dev/null || echo "(VOICE.md not found — run ./setup)"
-echo ""
-echo "=== PROTOCOL ==="
-cat ~/.ideate/PROTOCOL.md 2>/dev/null || echo "(PROTOCOL.md not found — run ./setup)"
+if [ -f "$HOME/.ideate/VOICE.md" ] && [ -f "$HOME/.ideate/PROTOCOL.md" ]; then
+  echo "SHARED_LOADED: yes"
+  echo "=== VOICE ==="
+  cat "$HOME/.ideate/VOICE.md"
+  echo ""
+  echo "=== PROTOCOL ==="
+  cat "$HOME/.ideate/PROTOCOL.md"
+else
+  echo "SHARED_LOADED: no"
+fi
 ```
 
 ## Routing
 
+0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
+   not found. Run `./setup` from the ideate repo to install them." Do NOT
+   proceed without voice and protocol loaded.
 1. If **HAS_PRIOR** is yes: **STOP.** Read the file. Ask: "Found an
    existing persona. Want to deepen it, add another, or start fresh?"
 2. If **HAS_IDEATION** is yes: Read the ideation file. Use the WHO field

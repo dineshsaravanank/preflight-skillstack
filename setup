@@ -20,6 +20,17 @@ for shared in VOICE.md PROTOCOL.md; do
 done
 echo "Installed shared files to $SHARED_DIR"
 
+# Create .gitignore template for project-local .ideate/ directories
+GITIGNORE_TEMPLATE="$SHARED_DIR/gitignore-template"
+cat > "$GITIGNORE_TEMPLATE" << 'HEREDOC'
+# Ideation session files — uncomment the line that matches your preference:
+# To ignore all ideation files (keep them local only):
+# *
+# To track ideation files in git (share with collaborators):
+# (leave this file empty or delete it)
+HEREDOC
+echo "Created .gitignore template at $GITIGNORE_TEMPLATE"
+
 # Install skills
 for skill in $SKILLS; do
   src="$SKILLS_DIR/$skill/SKILL.md"

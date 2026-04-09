@@ -48,15 +48,23 @@ fi
 
 # Load shared voice and protocol
 echo ""
-echo "=== VOICE ==="
-cat ~/.ideate/VOICE.md 2>/dev/null || echo "(VOICE.md not found — run ./setup)"
-echo ""
-echo "=== PROTOCOL ==="
-cat ~/.ideate/PROTOCOL.md 2>/dev/null || echo "(PROTOCOL.md not found — run ./setup)"
+if [ -f "$HOME/.ideate/VOICE.md" ] && [ -f "$HOME/.ideate/PROTOCOL.md" ]; then
+  echo "SHARED_LOADED: yes"
+  echo "=== VOICE ==="
+  cat "$HOME/.ideate/VOICE.md"
+  echo ""
+  echo "=== PROTOCOL ==="
+  cat "$HOME/.ideate/PROTOCOL.md"
+else
+  echo "SHARED_LOADED: no"
+fi
 ```
 
 ## Routing — read the bash output above and follow the FIRST matching rule
 
+0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
+   not found. Run `./setup` from the ideate repo to install them." Do NOT
+   proceed without voice and protocol loaded.
 1. If **RECENT_SESSIONS** is greater than 0: **STOP.** Show the recent sessions
    listed above (title and file path for each). Ask: "Found recent ideation
    sessions. Want to continue one, or start fresh?" If continuing, read the
@@ -265,15 +273,16 @@ EXPERIMENT 2: ...
 
 ## Session save
 
-After any phase completes, save the session state. Use the SAVE_DIR and
-SESSION values from the bash output at the top of this skill. Use a slugified
-version of the idea topic as the filename prefix for readability.
+After any phase completes, save the session state to **two files**:
 
-For example, if the topic is "AI meal planner" and SESSION is `ideate-1234567`,
-save as `SAVE_DIR/ai-meal-planner-ideate-1234567.md`.
+1. `SAVE_DIR/ideate.md` — the canonical file that all other skills read.
+   Always overwrite this with the latest state.
+2. `SAVE_DIR/ideate-SESSION_ID.md` — a timestamped copy for history.
+
+Use the SAVE_DIR and SESSION values from the bash output above.
 
 ```bash
-cat > SAVE_DIR/SLUG-SESSION_ID.md << 'HEREDOC'
+cat > SAVE_DIR/ideate.md << 'HEREDOC'
 # Ideation: ONE_LINER_OR_TOPIC
 Date: DATE_FROM_BASH_OUTPUT
 Phase: CURRENT_PHASE
@@ -293,7 +302,13 @@ Project: PROJECT_NAME
 HEREDOC
 ```
 
-Replace SAVE_DIR, SLUG, SESSION_ID, ONE_LINER_OR_TOPIC, DATE_FROM_BASH_OUTPUT,
+Then copy to the timestamped file for history:
+
+```bash
+cp SAVE_DIR/ideate.md SAVE_DIR/ideate-SESSION_ID.md
+```
+
+Replace SAVE_DIR, SESSION_ID, ONE_LINER_OR_TOPIC, DATE_FROM_BASH_OUTPUT,
 CURRENT_PHASE, and PROJECT_NAME with actual values from the conversation
 and the bash output above.
 

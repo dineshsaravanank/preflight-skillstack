@@ -33,11 +33,16 @@ echo "SAVE_DIR: $_SAVE_DIR"
 
 # Load shared voice and protocol
 echo ""
-echo "=== VOICE ==="
-cat ~/.ideate/VOICE.md 2>/dev/null || echo "(VOICE.md not found — run ./setup)"
-echo ""
-echo "=== PROTOCOL ==="
-cat ~/.ideate/PROTOCOL.md 2>/dev/null || echo "(PROTOCOL.md not found — run ./setup)"
+if [ -f "$HOME/.ideate/VOICE.md" ] && [ -f "$HOME/.ideate/PROTOCOL.md" ]; then
+  echo "SHARED_LOADED: yes"
+  echo "=== VOICE ==="
+  cat "$HOME/.ideate/VOICE.md"
+  echo ""
+  echo "=== PROTOCOL ==="
+  cat "$HOME/.ideate/PROTOCOL.md"
+else
+  echo "SHARED_LOADED: no"
+fi
 
 # Check completion state of each phase
 _PHASES="assumptions ideate premortem compare personas scope"
@@ -72,6 +77,9 @@ fi
 
 ## Routing — read CYCLE STATUS above and follow the FIRST matching rule
 
+0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
+   not found. Run `./setup` from the ideate repo to install them." Do NOT
+   proceed without voice and protocol loaded.
 1. If **COMPLETED is 6/6**: The cycle is done. Read all files from SAVE_DIR
    and present the FINAL SUMMARY (see below). Ask if the user wants to
    proceed to building or revisit any phase.
