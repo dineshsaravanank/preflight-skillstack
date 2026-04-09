@@ -69,7 +69,7 @@ if [ -f "$_SAVE_DIR/ideas.md" ]; then
   _IDEA_COUNT=$(grep -c '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true)
   echo "IDEA_COUNT: $_IDEA_COUNT"
   # Show each idea heading with its source tag
-  grep '^## \|^Source: \|^Phase: ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
+  grep -E '^(## |Source: |Phase: )' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
 else
   echo "HAS_IDEAS_FILE: no"
   echo "IDEA_COUNT: 0"
@@ -113,8 +113,9 @@ fi
    overwrite the existing tracker.
 
 5. If **COMPLETED is 0/6** and **IDEA_COUNT > 0**: Ideas exist but no cycle
-   started. Read each ideate file and present the IDEAS MENU (see below).
-   Ask the user if they want to double-click on one or start fresh.
+   started. Read `ideas.md` and review each idea section, then present the
+   IDEAS MENU (see below). Ask the user if they want to double-click on one
+   or start fresh.
 
 6. If **COMPLETED is 0/6** and **IDEA_COUNT is 0**: Fresh start. Proceed to CYCLE INTRO.
 
@@ -178,8 +179,10 @@ Then ask:
 > something new?"
 
 If the user picks an existing idea:
-- Read the full ideate file for that idea.
-- Pre-populate the tracker with what's already known.
+- Read the matching `##` section for that idea from `.preflight/ideas.md`.
+  If multiple titles are similar, use the number the user selected from
+  the menu; if still unclear, ask to disambiguate.
+- Pre-populate the tracker with what's already known from that section.
 - Identify which cycle phases are already done (check for matching
   `.preflight/` files: `assumptions.md`, `premortem.md`, etc.).
 - Present the PROGRESS CHECK showing what's done and what's next.

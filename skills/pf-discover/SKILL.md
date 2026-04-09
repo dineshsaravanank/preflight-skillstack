@@ -5,7 +5,8 @@ description: |
   Repo documentation miner. Reads through README, docs, issues, TODOs, and
   comments in the current project to extract latent ideas — features hinted at
   but never built, problems acknowledged but never solved, patterns that suggest
-  opportunity. Outputs ideate-format files so /preflight can pick them up.
+  opportunity. Appends discovered ideas as ## sections to the canonical
+  .preflight/ideas.md so /preflight can pick them up.
   Use when: "discover ideas", "what ideas are in this repo", "mine the docs",
   "find ideas", "what should we build", "scan for opportunities".
 allowed-tools:
