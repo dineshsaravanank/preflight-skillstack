@@ -1,4 +1,4 @@
-# Shared Protocols — All Ideate Skills
+# Shared Protocols — All Preflight Skills
 
 These protocols are referenced by every skill. Do not deviate.
 
@@ -14,7 +14,7 @@ has responded and the session is wrapping up.
 SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [last phase completed — e.g., "Phase 3: SHARPEN"]
-ARTIFACTS: [files saved — e.g., ".ideate/ideate.md"]
+ARTIFACTS: [files saved — e.g., ".preflight/ideate.md"]
 NEXT: [recommended next action — e.g., "Run /premortem"]
 CONCERNS: [only if STATUS is DONE_WITH_CONCERNS — list unresolved items]
 ```
@@ -31,7 +31,7 @@ CONCERNS: [only if STATUS is DONE_WITH_CONCERNS — list unresolved items]
 - **NEEDS_CONTEXT** — The skill needs input from another skill that
   hasn't been run yet (e.g., /scope needs /ideate output).
 
-This block lets `/ideate-start` detect what happened and route correctly.
+This block lets `/preflight` detect what happened and route correctly.
 
 ---
 

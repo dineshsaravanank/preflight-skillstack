@@ -1,6 +1,6 @@
-# ideate
+# preflight
 
-Idea validation toolkit for Claude Code. Eight skills that force deep thinking before any code gets written.
+Pre-flight checks for ideas. Eight skills that force deep thinking before any code gets written.
 
 ## The Cycle
 
@@ -10,13 +10,13 @@ Idea validation toolkit for Claude Code. Eight skills that force deep thinking b
                          (if the idea dies) → /pivot → restart cycle
 ```
 
-Run `/ideate-start` for the full guided cycle, or use any skill standalone.
+Run `/preflight` for the full guided cycle, or use any skill standalone.
 
 ## Skills
 
 | Skill | What it does |
 |-------|-------------|
-| `/ideate-start` | Full cycle orchestrator — tracks progress across all phases |
+| `/preflight` | Full cycle orchestrator — tracks progress across all phases |
 | `/assumption` | Surfaces hidden assumptions, ranks by criticality × uncertainty |
 | `/ideate` | Core idea validation — understand, challenge, sharpen, validate |
 | `/premortem` | Imagines the failure and works backward to prevent it |
@@ -28,8 +28,8 @@ Run `/ideate-start` for the full guided cycle, or use any skill standalone.
 ## Install
 
 ```bash
-git clone <this-repo> ~/Code/ideate
-cd ~/Code/ideate
+git clone <this-repo> ~/Code/preflight
+cd ~/Code/preflight
 ./setup
 ```
 
@@ -37,7 +37,7 @@ cd ~/Code/ideate
 
 **Full cycle** (recommended for new ideas):
 ```
-/ideate-start
+/preflight
 ```
 
 **Standalone** (for specific needs):
@@ -51,13 +51,13 @@ cd ~/Code/ideate
 /pivot          # "The idea died — now what?"
 ```
 
-All skills save their output to `.ideate/` in your project root (or `~/.ideate/sessions/` if no git repo). Each skill reads context from prior skills, so they build on each other.
+All skills save their output to `.preflight/` in your project root (or `~/.preflight/sessions/` if no git repo). Each skill reads context from prior skills, so they build on each other.
 
 ## Uninstall
 
 ```bash
 # Remove all skills
-for s in ideate assumption premortem compare personas scope pivot ideate-start; do
+for s in ideate assumption premortem compare personas scope pivot preflight; do
   rm -rf ~/.claude/skills/$s
 done
 ```

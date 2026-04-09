@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Smoke test for ideate skills
+# Smoke test for preflight skills
 # Validates structure, required sections, and shared protocol integration
 set -euo pipefail
 
@@ -13,12 +13,12 @@ ERRORS=""
 pass() { PASS=$((PASS + 1)); echo "  ✓ $1"; }
 fail() { FAIL=$((FAIL + 1)); ERRORS="$ERRORS\n  ✗ $1"; echo "  ✗ $1"; }
 
-echo "=== Ideate Skill Smoke Tests ==="
+echo "=== Preflight Skill Smoke Tests ==="
 echo ""
 
 # --- Test 1: All skill directories exist ---
 echo "Skill directories:"
-for skill in ideate assumption premortem compare personas scope pivot ideate-start; do
+for skill in ideate assumption premortem compare personas scope pivot preflight; do
   if [ -f "$SKILLS_DIR/$skill/SKILL.md" ]; then
     pass "$skill/SKILL.md exists"
   else
@@ -40,7 +40,7 @@ echo ""
 
 # --- Test 3: Each skill has required sections ---
 echo "Required sections:"
-for skill in ideate assumption premortem compare personas scope pivot ideate-start; do
+for skill in ideate assumption premortem compare personas scope pivot preflight; do
   file="$SKILLS_DIR/$skill/SKILL.md"
   [ ! -f "$file" ] && continue
 
@@ -69,7 +69,7 @@ for skill in ideate assumption premortem compare personas scope pivot ideate-sta
   if grep -q "What you are NOT\|What you are not" "$file"; then
     pass "$skill: has negative constraints"
   else
-    # ideate-start uses a different pattern
+    # preflight uses a different pattern
     if grep -q "NOT a replacement\|NOT rigid\|NOT a project manager" "$file"; then
       pass "$skill: has negative constraints"
     else
@@ -176,7 +176,7 @@ echo ""
 # --- Test 6: Setup script handles all skills ---
 echo "Setup script:"
 setup="$REPO_DIR/setup"
-for skill in ideate assumption premortem compare personas scope pivot ideate-start; do
+for skill in ideate assumption premortem compare personas scope pivot preflight; do
   if grep -q "$skill" "$setup"; then
     pass "setup includes $skill"
   else
@@ -197,7 +197,7 @@ echo ""
 
 # --- Test 7: Session save uses SAVE_DIR (not hardcoded paths) ---
 echo "State management:"
-for skill in ideate assumption premortem compare personas scope pivot ideate-start; do
+for skill in ideate assumption premortem compare personas scope pivot preflight; do
   file="$SKILLS_DIR/$skill/SKILL.md"
   [ ! -f "$file" ] && continue
 

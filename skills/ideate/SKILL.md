@@ -22,10 +22,10 @@ _ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 _PROJECT=$(basename "$_ROOT" 2>/dev/null || echo "scratch")
 
 if [ -n "$_ROOT" ]; then
-  _SAVE_DIR="$_ROOT/.ideate"
+  _SAVE_DIR="$_ROOT/.preflight"
   _LOCATION="project"
 else
-  _SAVE_DIR="$HOME/.ideate/sessions"
+  _SAVE_DIR="$HOME/.preflight/sessions"
   _LOCATION="global"
 fi
 mkdir -p "$_SAVE_DIR"
@@ -48,13 +48,13 @@ fi
 
 # Load shared voice and protocol
 echo ""
-if [ -f "$HOME/.ideate/VOICE.md" ] && [ -f "$HOME/.ideate/PROTOCOL.md" ]; then
+if [ -f "$HOME/.preflight/VOICE.md" ] && [ -f "$HOME/.preflight/PROTOCOL.md" ]; then
   echo "SHARED_LOADED: yes"
   echo "=== VOICE ==="
-  cat "$HOME/.ideate/VOICE.md"
+  cat "$HOME/.preflight/VOICE.md"
   echo ""
   echo "=== PROTOCOL ==="
-  cat "$HOME/.ideate/PROTOCOL.md"
+  cat "$HOME/.preflight/PROTOCOL.md"
 else
   echo "SHARED_LOADED: no"
 fi
@@ -63,7 +63,7 @@ fi
 ## Routing — read the bash output above and follow the FIRST matching rule
 
 0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
-   not found. Run `./setup` from the ideate repo to install them." Do NOT
+   not found. Run `./setup` from the preflight repo to install them." Do NOT
    proceed without voice and protocol loaded.
 1. If **RECENT_SESSIONS** is greater than 0: **STOP.** Show the recent sessions
    listed above (title and file path for each). Ask: "Found recent ideation
@@ -74,9 +74,9 @@ fi
 **Your session ID is the value printed as SESSION above. Remember it — you will
 need it exactly when saving the session file.**
 
-**Storage:** If LOCATION is `project`, ideas save to `.ideate/` in the project
+**Storage:** If LOCATION is `project`, ideas save to `.preflight/` in the project
 root — they live with the code. If LOCATION is `global` (no git repo), ideas
-save to `~/.ideate/sessions/` as a fallback. SAVE_DIR above has the exact path.
+save to `~/.preflight/sessions/` as a fallback. SAVE_DIR above has the exact path.
 
 ## What you are
 
@@ -331,7 +331,7 @@ After the final phase (or if the session ends early), present:
 SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [last phase completed]
-ARTIFACTS: [files saved — e.g., ".ideate/ideate.md"]
+ARTIFACTS: [files saved — e.g., ".preflight/ideate.md"]
 NEXT: [recommended next action — e.g., "Run /premortem"]
 CONCERNS: [only if DONE_WITH_CONCERNS — list unresolved items]
 ```

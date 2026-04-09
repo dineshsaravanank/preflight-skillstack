@@ -1,11 +1,11 @@
 ---
-name: ideate-start
+name: preflight
 version: 1.0.0
 description: |
   Full ideation cycle orchestrator. Runs the complete idea validation pipeline:
   assumptions → ideate → premortem → compare → personas → scope. Tracks progress,
   routes to the next phase, and handles pivots when ideas die.
-  Use when: "full ideation", "ideate-start", "run the whole cycle",
+  Use when: "full ideation", "preflight", "run the whole cycle",
   "start from scratch", "validate this properly", "full validation".
 allowed-tools:
   - AskUserQuestion
@@ -13,7 +13,7 @@ allowed-tools:
   - Read
 ---
 
-# /ideate-start — Full Idea Validation Cycle
+# /preflight — Full Idea Validation Cycle
 
 ```bash
 _DATE=$(date +%Y-%m-%d)
@@ -21,9 +21,9 @@ _ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 _PROJECT=$(basename "$_ROOT" 2>/dev/null || echo "scratch")
 
 if [ -n "$_ROOT" ]; then
-  _SAVE_DIR="$_ROOT/.ideate"
+  _SAVE_DIR="$_ROOT/.preflight"
 else
-  _SAVE_DIR="$HOME/.ideate/sessions"
+  _SAVE_DIR="$HOME/.preflight/sessions"
 fi
 mkdir -p "$_SAVE_DIR"
 
@@ -33,13 +33,13 @@ echo "SAVE_DIR: $_SAVE_DIR"
 
 # Load shared voice and protocol
 echo ""
-if [ -f "$HOME/.ideate/VOICE.md" ] && [ -f "$HOME/.ideate/PROTOCOL.md" ]; then
+if [ -f "$HOME/.preflight/VOICE.md" ] && [ -f "$HOME/.preflight/PROTOCOL.md" ]; then
   echo "SHARED_LOADED: yes"
   echo "=== VOICE ==="
-  cat "$HOME/.ideate/VOICE.md"
+  cat "$HOME/.preflight/VOICE.md"
   echo ""
   echo "=== PROTOCOL ==="
-  cat "$HOME/.ideate/PROTOCOL.md"
+  cat "$HOME/.preflight/PROTOCOL.md"
 else
   echo "SHARED_LOADED: no"
 fi
@@ -78,7 +78,7 @@ fi
 ## Routing — read CYCLE STATUS above and follow the FIRST matching rule
 
 0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
-   not found. Run `./setup` from the ideate repo to install them." Do NOT
+   not found. Run `./setup` from the preflight repo to install them." Do NOT
    proceed without voice and protocol loaded.
 1. If **COMPLETED is 6/6**: The cycle is done. Read all files from SAVE_DIR
    and present the FINAL SUMMARY (see below). Ask if the user wants to
@@ -118,7 +118,7 @@ phase matters.
 Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 - **After each phase completes, the user returns here.** Remind them:
-  "Run `/ideate-start` to continue the cycle."
+  "Run `/preflight` to continue the cycle."
 - **Track state in the tracker file** (see below). This persists across
   conversations.
 
@@ -304,7 +304,7 @@ After presenting the FINAL SUMMARY (or if the cycle is abandoned), present:
 SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [e.g., "Full cycle complete" or "3/6 — paused at compare"]
-ARTIFACTS: [files saved — list all .ideate/ files]
+ARTIFACTS: [files saved — list all .preflight/ files]
 NEXT: [build it / run validation experiments / pivot / revisit phase X]
 CONCERNS: [only if DONE_WITH_CONCERNS — list unresolved items from any phase]
 ```

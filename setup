@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Install all ideation skills for Claude Code
+# Install all preflight skills for Claude Code
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$SCRIPT_DIR/skills"
 TARGET_BASE="$HOME/.claude/skills"
-SHARED_DIR="$HOME/.ideate"
+SHARED_DIR="$HOME/.preflight"
 
-SKILLS="ideate assumption premortem compare personas scope pivot ideate-start"
+SKILLS="ideate assumption premortem compare personas scope pivot preflight"
 
 # Install shared files (VOICE.md, PROTOCOL.md)
 mkdir -p "$SHARED_DIR"
@@ -20,13 +20,13 @@ for shared in VOICE.md PROTOCOL.md; do
 done
 echo "Installed shared files to $SHARED_DIR"
 
-# Create .gitignore template for project-local .ideate/ directories
+# Create .gitignore template for project-local .preflight/ directories
 GITIGNORE_TEMPLATE="$SHARED_DIR/gitignore-template"
 cat > "$GITIGNORE_TEMPLATE" << 'HEREDOC'
-# Ideation session files — uncomment the line that matches your preference:
-# To ignore all ideation files (keep them local only):
+# Preflight session files — uncomment the line that matches your preference:
+# To ignore all preflight files (keep them local only):
 # *
-# To track ideation files in git (share with collaborators):
+# To track preflight files in git (share with collaborators):
 # (leave this file empty or delete it)
 HEREDOC
 echo "Created .gitignore template at $GITIGNORE_TEMPLATE"
@@ -56,7 +56,7 @@ echo ""
 echo "Installed 8 skills: $SKILLS"
 echo ""
 echo "Start a new Claude Code conversation and type:"
-echo "  /ideate-start    — full validation cycle"
+echo "  /preflight       — full validation cycle"
 echo "  /ideate          — just idea validation"
 echo "  /assumption      — hidden assumption check"
 echo "  /premortem       — failure pre-mortem"

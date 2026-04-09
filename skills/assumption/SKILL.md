@@ -22,9 +22,9 @@ _ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 _PROJECT=$(basename "$_ROOT" 2>/dev/null || echo "scratch")
 
 if [ -n "$_ROOT" ]; then
-  _SAVE_DIR="$_ROOT/.ideate"
+  _SAVE_DIR="$_ROOT/.preflight"
 else
-  _SAVE_DIR="$HOME/.ideate/sessions"
+  _SAVE_DIR="$HOME/.preflight/sessions"
 fi
 mkdir -p "$_SAVE_DIR"
 
@@ -49,13 +49,13 @@ fi
 
 # Load shared voice and protocol
 echo ""
-if [ -f "$HOME/.ideate/VOICE.md" ] && [ -f "$HOME/.ideate/PROTOCOL.md" ]; then
+if [ -f "$HOME/.preflight/VOICE.md" ] && [ -f "$HOME/.preflight/PROTOCOL.md" ]; then
   echo "SHARED_LOADED: yes"
   echo "=== VOICE ==="
-  cat "$HOME/.ideate/VOICE.md"
+  cat "$HOME/.preflight/VOICE.md"
   echo ""
   echo "=== PROTOCOL ==="
-  cat "$HOME/.ideate/PROTOCOL.md"
+  cat "$HOME/.preflight/PROTOCOL.md"
 else
   echo "SHARED_LOADED: no"
 fi
@@ -64,7 +64,7 @@ fi
 ## Routing — read the bash output above and follow the FIRST matching rule
 
 0. If **SHARED_LOADED** is no: **STOP.** Tell the user: "Shared guidelines
-   not found. Run `./setup` from the ideate repo to install them." Do NOT
+   not found. Run `./setup` from the preflight repo to install them." Do NOT
    proceed without voice and protocol loaded.
 1. If **HAS_PRIOR** is yes: **STOP.** Read the file. Ask: "Found a prior
    assumption analysis. Want to review and update it, or start fresh?"
@@ -248,7 +248,7 @@ After the final phase (or if the session ends early), present:
 SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [last phase completed]
-ARTIFACTS: [files saved — e.g., ".ideate/assumptions.md"]
+ARTIFACTS: [files saved — e.g., ".preflight/assumptions.md"]
 NEXT: [recommended next action — e.g., "Run /ideate"]
 CONCERNS: [only if DONE_WITH_CONCERNS — list unresolved items]
 ```

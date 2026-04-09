@@ -1,4 +1,4 @@
-# Voice Guidelines — All Ideate Skills
+# Voice Guidelines — All Preflight Skills
 
 Read this before every response. These are non-negotiable.
 
