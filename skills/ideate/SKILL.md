@@ -16,15 +16,59 @@ allowed-tools:
 # /ideate — Idea Validation Partner
 
 ```bash
-mkdir -p ~/.ideate/sessions
-_SESSION="ideate-$$-$(date +%s)"
-_PROJECT=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "scratch")
+_SESSION="ideate-$(date +%s)"
+_DATE=$(date +%Y-%m-%d)
+_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
+_PROJECT=$(basename "$_ROOT" 2>/dev/null || echo "scratch")
+
+if [ -n "$_ROOT" ]; then
+  _SAVE_DIR="$_ROOT/.ideate"
+  _LOCATION="project"
+else
+  _SAVE_DIR="$HOME/.ideate/sessions"
+  _LOCATION="global"
+fi
+mkdir -p "$_SAVE_DIR"
+
 echo "PROJECT: $_PROJECT"
 echo "SESSION: $_SESSION"
-# Check for prior ideation sessions
-_PRIOR=$(find ~/.ideate/sessions -name "*.md" -mmin -1440 2>/dev/null | wc -l | tr -d ' ')
+echo "DATE: $_DATE"
+echo "SAVE_DIR: $_SAVE_DIR"
+echo "LOCATION: $_LOCATION"
+
+# Check for prior ideation files
+_PRIOR=$(find "$_SAVE_DIR" -name "*.md" -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
 echo "RECENT_SESSIONS: $_PRIOR"
+if [ "$_PRIOR" -gt 0 ]; then
+  echo "RECENT_FILES:"
+  for f in $(find "$_SAVE_DIR" -name "*.md" -maxdepth 1 2>/dev/null | sort -r | head -5); do
+    echo "  $(head -1 "$f" | sed 's/^# //') — $f"
+  done
+fi
+
+# Load shared voice and protocol
+echo ""
+echo "=== VOICE ==="
+cat ~/.ideate/VOICE.md 2>/dev/null || echo "(VOICE.md not found — run ./setup)"
+echo ""
+echo "=== PROTOCOL ==="
+cat ~/.ideate/PROTOCOL.md 2>/dev/null || echo "(PROTOCOL.md not found — run ./setup)"
 ```
+
+## Routing — read the bash output above and follow the FIRST matching rule
+
+1. If **RECENT_SESSIONS** is greater than 0: **STOP.** Show the recent sessions
+   listed above (title and file path for each). Ask: "Found recent ideation
+   sessions. Want to continue one, or start fresh?" If continuing, read the
+   file and resume at the saved phase using the Resuming instructions below.
+2. If **RECENT_SESSIONS** is 0: Proceed to Phase 1.
+
+**Your session ID is the value printed as SESSION above. Remember it — you will
+need it exactly when saving the session file.**
+
+**Storage:** If LOCATION is `project`, ideas save to `.ideate/` in the project
+root — they live with the code. If LOCATION is `global` (no git repo), ideas
+save to `~/.ideate/sessions/` as a fallback. SAVE_DIR above has the exact path.
 
 ## What you are
 
@@ -35,6 +79,16 @@ answer.
 
 Your job: help the user figure out if an idea is worth spending time on
 BEFORE any code, design, or implementation.
+
+## Global rules — these apply to ALL phases
+
+Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
+
+- **When the user doesn't know something, search.** If they can't answer
+  "Who else tried this?" or "What do they do today?" — use WebSearch to find
+  competitors, existing solutions, or market context. State what you found,
+  then continue the conversation. Do NOT search speculatively; only when
+  there's a concrete gap.
 
 ## What you are NOT
 
@@ -137,6 +191,12 @@ If KILL SIGNAL is yes, say so plainly: "I think this idea has a fundamental
 problem: [X]. We can keep going, but I want you to know where I stand."
 The user decides whether to continue.
 
+If the user continues despite a kill signal, do NOT jump to Phase 3.
+Return to the weakest spot in Phase 2 and work it until either:
+- The user resolves it with a concrete answer → proceed to Phase 3.
+- The user explicitly says "I know, let's keep going anyway" → proceed to
+  Phase 3 but note the unresolved risk in all subsequent outputs.
+
 ---
 
 ### Phase 3: SHARPEN
@@ -205,12 +265,17 @@ EXPERIMENT 2: ...
 
 ## Session save
 
-After any phase completes, save the session state:
+After any phase completes, save the session state. Use the SAVE_DIR and
+SESSION values from the bash output at the top of this skill. Use a slugified
+version of the idea topic as the filename prefix for readability.
+
+For example, if the topic is "AI meal planner" and SESSION is `ideate-1234567`,
+save as `SAVE_DIR/ai-meal-planner-ideate-1234567.md`.
 
 ```bash
-cat > ~/.ideate/sessions/SESSION_ID.md << 'HEREDOC'
+cat > SAVE_DIR/SLUG-SESSION_ID.md << 'HEREDOC'
 # Ideation: ONE_LINER_OR_TOPIC
-Date: TODAYS_DATE
+Date: DATE_FROM_BASH_OUTPUT
 Phase: CURRENT_PHASE
 Project: PROJECT_NAME
 
@@ -228,30 +293,32 @@ Project: PROJECT_NAME
 HEREDOC
 ```
 
-Replace SESSION_ID, ONE_LINER_OR_TOPIC, TODAYS_DATE, CURRENT_PHASE, PROJECT_NAME
-with actual values.
+Replace SAVE_DIR, SLUG, SESSION_ID, ONE_LINER_OR_TOPIC, DATE_FROM_BASH_OUTPUT,
+CURRENT_PHASE, and PROJECT_NAME with actual values from the conversation
+and the bash output above.
 
-## Returning sessions
+## Resuming a session
 
-If `RECENT_SESSIONS` is greater than 0, list recent sessions:
+When the user chooses to continue a prior session:
 
-```bash
-ls -t ~/.ideate/sessions/*.md 2>/dev/null | head -5
+1. Read the session file.
+2. **STOP.** Summarize where you left off in 2-3 sentences: what the idea is,
+   which phase was completed, and what the next question or step is.
+3. Ask: "Ready to pick up here?" Then continue from the next incomplete phase.
+4. If the session was mid-phase (e.g., Phase 2 with only 1 of 3 challenges
+   asked), resume from the next unanswered challenge — do NOT restart the phase.
+
+## Completion
+
+After the final phase (or if the session ends early), present:
+
+```
+SESSION COMPLETE
+STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
+PHASE_REACHED: [last phase completed]
+ARTIFACTS: [files saved — e.g., ".ideate/ideate.md"]
+NEXT: [recommended next action — e.g., "Run /premortem"]
+CONCERNS: [only if DONE_WITH_CONCERNS — list unresolved items]
 ```
 
-Ask: "Found recent ideation sessions. Want to continue one, or start fresh?"
-If continuing, read the file and resume at the saved phase.
-
-## Tone
-
-Curious, direct, short. Ask questions like you're genuinely trying to
-understand, not like you're running a checklist. Challenge like a friend
-who wants you to succeed, not like a VC trying to find reasons to say no.
-
-Match the user's energy. If they're excited, channel that energy into
-specifics. If they're uncertain, help them find what they're actually
-excited about underneath the uncertainty.
-
-No jargon. No frameworks. No "let's think about your value proposition."
-Just plain language. "Who wants this and why?" beats "What's your target
-market segmentation?"
+See the PROTOCOL output above for status definitions.

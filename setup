@@ -1,20 +1,55 @@
 #!/usr/bin/env bash
-# Install /ideate as a Claude Code skill
+# Install all ideation skills for Claude Code
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SKILL_DIR="$HOME/.claude/skills/ideate"
+SKILLS_DIR="$SCRIPT_DIR/skills"
+TARGET_BASE="$HOME/.claude/skills"
+SHARED_DIR="$HOME/.ideate"
 
-mkdir -p "$SKILL_DIR"
+SKILLS="ideate assumption premortem compare personas scope pivot ideate-start"
 
-# Symlink or copy based on flag
-if [ "${1:-}" = "--copy" ]; then
-  cp "$SCRIPT_DIR/SKILL.md" "$SKILL_DIR/SKILL.md"
-  echo "Copied SKILL.md to $SKILL_DIR"
-else
-  ln -sf "$SCRIPT_DIR/SKILL.md" "$SKILL_DIR/SKILL.md"
-  echo "Symlinked $SKILL_DIR/SKILL.md -> $SCRIPT_DIR/SKILL.md"
-fi
+# Install shared files (VOICE.md, PROTOCOL.md)
+mkdir -p "$SHARED_DIR"
+for shared in VOICE.md PROTOCOL.md; do
+  if [ "${1:-}" = "--copy" ]; then
+    cp "$SCRIPT_DIR/$shared" "$SHARED_DIR/$shared"
+  else
+    ln -sf "$SCRIPT_DIR/$shared" "$SHARED_DIR/$shared"
+  fi
+done
+echo "Installed shared files to $SHARED_DIR"
+
+# Install skills
+for skill in $SKILLS; do
+  src="$SKILLS_DIR/$skill/SKILL.md"
+  dest="$TARGET_BASE/$skill"
+
+  if [ ! -f "$src" ]; then
+    echo "WARN: $src not found, skipping"
+    continue
+  fi
+
+  mkdir -p "$dest"
+
+  if [ "${1:-}" = "--copy" ]; then
+    cp "$src" "$dest/SKILL.md"
+    echo "  Copied $skill"
+  else
+    ln -sf "$src" "$dest/SKILL.md"
+    echo "  Linked $skill"
+  fi
+done
 
 echo ""
-echo "Done. Start a new Claude Code conversation and type /ideate"
+echo "Installed 8 skills: $SKILLS"
+echo ""
+echo "Start a new Claude Code conversation and type:"
+echo "  /ideate-start    — full validation cycle"
+echo "  /ideate          — just idea validation"
+echo "  /assumption      — hidden assumption check"
+echo "  /premortem       — failure pre-mortem"
+echo "  /compare         — competitive analysis"
+echo "  /personas        — deep user persona"
+echo "  /scope           — ruthless scoping"
+echo "  /pivot           — pivot from a dead idea"
