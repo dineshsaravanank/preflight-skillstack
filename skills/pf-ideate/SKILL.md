@@ -16,7 +16,6 @@ allowed-tools:
 # /pf-ideate — Idea Validation Partner
 
 ```bash
-_SESSION="ideate-$(date +%s)"
 _DATE=$(date +%Y-%m-%d)
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 _PROJECT=$(basename "$_ROOT" 2>/dev/null || echo "scratch")
@@ -31,7 +30,6 @@ fi
 mkdir -p "$_SAVE_DIR"
 
 echo "PROJECT: $_PROJECT"
-echo "SESSION: $_SESSION"
 echo "DATE: $_DATE"
 echo "SAVE_DIR: $_SAVE_DIR"
 echo "LOCATION: $_LOCATION"
@@ -75,10 +73,7 @@ fi
    instructions below.
 2. If **IDEA_COUNT** is 0: Proceed to Phase 1.
 
-**Your session ID is the value printed as SESSION above. Remember it — you will
-need it exactly when saving the session file.**
-
-**Storage:** If LOCATION is `project`, ideas save to `.preflight/` in the project
+**Storage:** If LOCATION is `project`, ideas save to `.preflight/ideas.md` in the project
 root — they live with the code. If LOCATION is `global` (no git repo), ideas
 save to `~/.preflight/sessions/` as a fallback. SAVE_DIR above has the exact path.
 

@@ -206,7 +206,7 @@ week on?"**
 
 If the user picks one:
 - Run it through a quick stress test: "Who wants this, why now, and
-  what's the smallest version?" (3 questions from /ideate, condensed)
+  what's the smallest version?" (3 questions from /pf-ideate, condensed)
 - If it holds up, suggest running `/pf-ideate` on the pivot for full
   validation.
 
