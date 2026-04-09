@@ -67,11 +67,12 @@ echo ""
 echo "=== EXISTING IDEAS ==="
 echo "IDEA_COUNT: $_IDEA_COUNT"
 if [ "$_IDEA_COUNT" -gt 0 ]; then
-  while IFS= read -r -d '' f; do
+  for f in "$_SAVE_DIR"/ideate*.md; do
+    [ -f "$f" ] || continue
     _TITLE=$(head -1 "$f" | sed 's/^# //')
     _PHASE=$(grep -m1 '^Phase:' "$f" 2>/dev/null | sed 's/^Phase: //')
     echo "  $_TITLE | Phase: $_PHASE | $f"
-  done < <(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" -print0 2>/dev/null | sort -z -r)
+  done
 fi
 
 # Check for pivot

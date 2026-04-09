@@ -39,9 +39,10 @@ else
   echo "EXISTING_IDEAS: $_EXISTING"
   if [ "$_EXISTING" -gt 0 ]; then
     echo "EXISTING_FILES:"
-    while IFS= read -r -d '' f; do
+    for f in "$_SAVE_DIR"/ideate*.md; do
+      [ -f "$f" ] || continue
       echo "  $(head -1 "$f" | sed 's/^# //') — $f"
-    done < <(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" -print0 2>/dev/null | sort -z -r)
+    done
   fi
 
   # Load shared voice and protocol
