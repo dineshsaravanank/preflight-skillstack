@@ -62,17 +62,16 @@ echo ""
 echo "COMPLETED: $_COMPLETED / $_TOTAL"
 
 # Check for existing ideas (ideate files)
-_IDEAS=$(find "$_SAVE_DIR" -name "ideate*.md" -maxdepth 1 2>/dev/null | sort -r)
-_IDEA_COUNT=$(echo "$_IDEAS" | grep -c . 2>/dev/null || echo 0)
+_IDEA_COUNT=$(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" 2>/dev/null | grep -c . 2>/dev/null || true)
 echo ""
 echo "=== EXISTING IDEAS ==="
 echo "IDEA_COUNT: $_IDEA_COUNT"
 if [ "$_IDEA_COUNT" -gt 0 ]; then
-  for f in $_IDEAS; do
+  while IFS= read -r -d '' f; do
     _TITLE=$(head -1 "$f" | sed 's/^# //')
     _PHASE=$(grep -m1 '^Phase:' "$f" 2>/dev/null | sed 's/^Phase: //')
     echo "  $_TITLE | Phase: $_PHASE | $f"
-  done
+  done < <(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" -print0 2>/dev/null | sort -z -r)
 fi
 
 # Check for pivot
