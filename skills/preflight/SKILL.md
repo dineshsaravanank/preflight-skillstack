@@ -44,13 +44,32 @@ else
   echo "SHARED_LOADED: no"
 fi
 
+# Check for existing ideas in the canonical ideas.md
+echo ""
+echo "=== EXISTING IDEAS ==="
+if [ -f "$_SAVE_DIR/ideas.md" ]; then
+  echo "HAS_IDEAS_FILE: yes"
+  _IDEA_COUNT=$(grep -c '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true)
+  echo "IDEA_COUNT: $_IDEA_COUNT"
+  grep -E '^(## |Source: |Phase: )' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
+else
+  echo "HAS_IDEAS_FILE: no"
+  echo "IDEA_COUNT: 0"
+fi
+
 # Check completion state of each phase
-_PHASES="assumptions ideate premortem compare personas scope"
+# ideate phase is complete when ideas.md has at least one idea
 _COMPLETED=0
 _TOTAL=6
 echo ""
 echo "=== CYCLE STATUS ==="
-for phase in $_PHASES; do
+if [ "$_IDEA_COUNT" -gt 0 ] 2>/dev/null; then
+  echo "ideate: DONE"
+  _COMPLETED=$((_COMPLETED + 1))
+else
+  echo "ideate: PENDING"
+fi
+for phase in assumptions premortem compare personas scope; do
   if [ -f "$_SAVE_DIR/$phase.md" ]; then
     echo "$phase: DONE"
     _COMPLETED=$((_COMPLETED + 1))
@@ -60,20 +79,6 @@ for phase in $_PHASES; do
 done
 echo ""
 echo "COMPLETED: $_COMPLETED / $_TOTAL"
-
-# Check for existing ideas in the canonical ideas.md
-echo ""
-echo "=== EXISTING IDEAS ==="
-if [ -f "$_SAVE_DIR/ideas.md" ]; then
-  echo "HAS_IDEAS_FILE: yes"
-  _IDEA_COUNT=$(grep -c '^## ' "$_SAVE_DIR/ideas.md" 2>/dev/null || true)
-  echo "IDEA_COUNT: $_IDEA_COUNT"
-  # Show each idea heading with its source tag
-  grep -E '^(## |Source: |Phase: )' "$_SAVE_DIR/ideas.md" 2>/dev/null || true
-else
-  echo "HAS_IDEAS_FILE: no"
-  echo "IDEA_COUNT: 0"
-fi
 
 # Check for pivot
 if [ -f "$_SAVE_DIR/pivot.md" ]; then
