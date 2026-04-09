@@ -98,13 +98,13 @@ fi
    and present the FINAL SUMMARY (see below). Ask if the user wants to
    proceed to building or revisit any phase.
 
-2. If **COMPLETED is between 1/6 and 5/6**: A cycle is in progress. Read
-   the tracker file if it exists. Identify the next PENDING phase and tell
-   the user where they are. Present the PROGRESS CHECK (see below).
-
-3. If **HAS_PIVOT is yes and COMPLETED < 3/6**: A pivot happened early.
+2. If **HAS_PIVOT is yes and COMPLETED < 3/6**: A pivot happened early.
    Read the pivot file. Ask: "You pivoted earlier. Want to restart the
    cycle with the new direction, or explore something completely new?"
+
+3. If **COMPLETED is between 1/6 and 5/6**: A cycle is in progress. Read
+   the tracker file if it exists. Identify the next PENDING phase and tell
+   the user where they are. Present the PROGRESS CHECK (see below).
 
 4. If **COMPLETED is 0/6** and **HAS_TRACKER is yes**: A cycle was started
    but no phase files produced yet. Read the tracker. Tell the user:
@@ -151,7 +151,7 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 ## IDEAS MENU (when existing ideas found)
 
-Read `.preflight/ideas.md`. Each `##` heading is a separate idea. For each,
+Read `SAVE_DIR/ideas.md`. Each `##` heading is a separate idea. For each,
 extract the title and check which fields have content vs. placeholder
 text (e.g., "needs /pf-ideate"). Present them as a numbered list:
 
@@ -179,7 +179,7 @@ Then ask:
 > something new?"
 
 If the user picks an existing idea:
-- Read the matching `##` section for that idea from `.preflight/ideas.md`.
+- Read the matching `##` section for that idea from `SAVE_DIR/ideas.md`.
   If multiple titles are similar, use the number the user selected from
   the menu; if still unclear, ask to disambiguate.
 - Pre-populate the tracker with what's already known from that section.
