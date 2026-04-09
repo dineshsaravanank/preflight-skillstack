@@ -1,5 +1,5 @@
 ---
-name: compare
+name: pf-compare
 version: 1.0.0
 description: |
   Competitive landscape research. Finds what already exists, maps existing
@@ -15,7 +15,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /compare — Competitive Reality Check
+# /pf-compare — Competitive Reality Check
 
 ```bash
 _DATE=$(date +%Y-%m-%d)
@@ -33,9 +33,9 @@ echo "PROJECT: $_PROJECT"
 echo "DATE: $_DATE"
 echo "SAVE_DIR: $_SAVE_DIR"
 
-if [ -f "$_SAVE_DIR/ideate.md" ]; then
+if [ -f "$_SAVE_DIR/ideas.md" ]; then
   echo "HAS_IDEATION: yes"
-  echo "IDEATION_FILE: $_SAVE_DIR/ideate.md"
+  echo "IDEATION_FILE: $_SAVE_DIR/ideas.md"
 else
   echo "HAS_IDEATION: no"
 fi

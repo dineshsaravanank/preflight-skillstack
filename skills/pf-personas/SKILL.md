@@ -1,5 +1,5 @@
 ---
-name: personas
+name: pf-personas
 version: 1.0.0
 description: |
   Deep user persona development. Not marketing personas — a real person's
@@ -14,7 +14,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /personas — Describe Your User's Tuesday at 2pm
+# /pf-personas — Describe Your User's Tuesday at 2pm
 
 ```bash
 _DATE=$(date +%Y-%m-%d)
@@ -32,9 +32,9 @@ echo "PROJECT: $_PROJECT"
 echo "DATE: $_DATE"
 echo "SAVE_DIR: $_SAVE_DIR"
 
-if [ -f "$_SAVE_DIR/ideate.md" ]; then
+if [ -f "$_SAVE_DIR/ideas.md" ]; then
   echo "HAS_IDEATION: yes"
-  echo "IDEATION_FILE: $_SAVE_DIR/ideate.md"
+  echo "IDEATION_FILE: $_SAVE_DIR/ideas.md"
 else
   echo "HAS_IDEATION: no"
 fi

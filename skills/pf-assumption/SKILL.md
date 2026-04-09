@@ -1,5 +1,5 @@
 ---
-name: assumption
+name: pf-assumption
 version: 1.0.0
 description: |
   Hidden assumption extraction. Surfaces everything that must be true for an
@@ -14,7 +14,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /assumption — Hidden Assumption Extractor
+# /pf-assumption — Hidden Assumption Extractor
 
 ```bash
 _DATE=$(date +%Y-%m-%d)
@@ -33,9 +33,9 @@ echo "DATE: $_DATE"
 echo "SAVE_DIR: $_SAVE_DIR"
 
 # Check for existing ideation context
-if [ -f "$_SAVE_DIR/ideate.md" ]; then
+if [ -f "$_SAVE_DIR/ideas.md" ]; then
   echo "HAS_IDEATION: yes"
-  echo "IDEATION_FILE: $_SAVE_DIR/ideate.md"
+  echo "IDEATION_FILE: $_SAVE_DIR/ideas.md"
 else
   echo "HAS_IDEATION: no"
 fi

@@ -1,13 +1,13 @@
 # preflight
 
-Pre-flight checks for ideas. Eight skills that force deep thinking before any code gets written.
+Pre-flight checks for ideas. Nine skills that force deep thinking before any code gets written.
 
 ## The Cycle
 
 ```
-/assumption → /ideate → /premortem → /compare → /personas → /scope
+/pf-assumption → /pf-ideate → /pf-premortem → /pf-compare → /pf-personas → /pf-scope
                                                                  ↓
-                         (if the idea dies) → /pivot → restart cycle
+                         (if the idea dies) → /pf-pivot → restart cycle
 ```
 
 Run `/preflight` for the full guided cycle, or use any skill standalone.
@@ -17,13 +17,14 @@ Run `/preflight` for the full guided cycle, or use any skill standalone.
 | Skill | What it does |
 |-------|-------------|
 | `/preflight` | Full cycle orchestrator — tracks progress across all phases |
-| `/assumption` | Surfaces hidden assumptions, ranks by criticality × uncertainty |
-| `/ideate` | Core idea validation — understand, challenge, sharpen, validate |
-| `/premortem` | Imagines the failure and works backward to prevent it |
-| `/compare` | Competitive research — finds what exists, assesses real differentiation |
-| `/personas` | Builds one deep user persona — their day, their problem moment, their workflow |
-| `/scope` | Strips the idea to the absolute minimum buildable in days |
-| `/pivot` | Extracts learnings from dead ideas and rotates into new directions |
+| `/pf-assumption` | Surfaces hidden assumptions, ranks by criticality × uncertainty |
+| `/pf-ideate` | Core idea validation — understand, challenge, sharpen, validate |
+| `/pf-premortem` | Imagines the failure and works backward to prevent it |
+| `/pf-compare` | Competitive research — finds what exists, assesses real differentiation |
+| `/pf-personas` | Builds one deep user persona — their day, their problem moment, their workflow |
+| `/pf-scope` | Strips the idea to the absolute minimum buildable in days |
+| `/pf-pivot` | Extracts learnings from dead ideas and rotates into new directions |
+| `/pf-discover` | Mines repo docs, TODOs, and issues to surface latent ideas |
 
 ## Install
 
@@ -42,13 +43,14 @@ cd ~/Code/preflight
 
 **Standalone** (for specific needs):
 ```
-/assumption     # "What am I assuming?"
-/ideate         # "Is this idea worth building?"
-/premortem      # "How could this fail?"
-/compare        # "Who else does this?"
-/personas       # "Who exactly is this for?"
-/scope          # "What's the smallest v1?"
-/pivot          # "The idea died — now what?"
+/pf-assumption     # "What am I assuming?"
+/pf-ideate         # "Is this idea worth building?"
+/pf-premortem      # "How could this fail?"
+/pf-compare        # "Who else does this?"
+/pf-personas       # "Who exactly is this for?"
+/pf-scope          # "What's the smallest v1?"
+/pf-pivot          # "The idea died — now what?"
+/pf-discover       # "What ideas are hiding in this repo?"
 ```
 
 All skills save their output to `.preflight/` in your project root (or `~/.preflight/sessions/` if no git repo). Each skill reads context from prior skills, so they build on each other.
@@ -57,7 +59,7 @@ All skills save their output to `.preflight/` in your project root (or `~/.prefl
 
 ```bash
 # Remove all skills
-for s in ideate assumption premortem compare personas scope pivot preflight; do
+for s in pf-ideate pf-assumption pf-premortem pf-compare pf-personas pf-scope pf-pivot preflight pf-discover; do
   rm -rf ~/.claude/skills/$s
 done
 ```
