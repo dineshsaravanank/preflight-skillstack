@@ -145,19 +145,26 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 ## IDEAS MENU (when existing ideas found)
 
 Read each ideate file listed in EXISTING IDEAS above. For each idea, extract
-the one-liner (or title), the phase it reached, and any kill signals or
-weak spots. Present them as a numbered list:
+the one-liner (or title) and the phase it reached. Check which sections
+have content vs. placeholder text (e.g., "needs /pf-ideate"). Present
+them as a numbered list:
 
 ```
 EXISTING IDEAS IN THIS PROJECT
 
 1. [one-liner or title]
-   Phase reached: [phase] | Signal: [STRONG/MODERATE/WEAK/INCOMPLETE]
-   Key finding: [one sentence — the most important thing learned]
+   Phase: [phase reached] | Completeness: [FULL / PARTIAL / DISCOVERED-ONLY]
+   [if FULL/PARTIAL: key finding — one sentence from the most advanced section]
+   [if DISCOVERED-ONLY: "Source evidence only — needs /pf-ideate to flesh out"]
 
 2. [one-liner or title]
    ...
 ```
+
+Completeness levels:
+- **FULL** — has snapshot, challenge results, and sharpened idea
+- **PARTIAL** — has snapshot but missing later sections
+- **DISCOVERED-ONLY** — from /pf-discover, only has source evidence
 
 Then ask:
 

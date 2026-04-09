@@ -33,9 +33,15 @@ else
   echo "SAVE_DIR: $_SAVE_DIR"
   echo "ROOT: $_ROOT"
 
-  # Count existing ideas so we don't overwrite
-  _EXISTING=$(find "$_SAVE_DIR" -name "ideate-discover-*.md" -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
-  echo "EXISTING_DISCOVERED: $_EXISTING"
+  # Count existing ideas so we don't create duplicates
+  _EXISTING=$(find "$_SAVE_DIR" -name "ideate*.md" -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
+  echo "EXISTING_IDEAS: $_EXISTING"
+  if [ "$_EXISTING" -gt 0 ]; then
+    echo "EXISTING_FILES:"
+    for f in $(find "$_SAVE_DIR" -name "ideate*.md" -maxdepth 1 2>/dev/null | sort -r); do
+      echo "  $(head -1 "$f" | sed 's/^# //') — $f"
+    done
+  fi
 
   # Load shared voice and protocol
   echo ""
@@ -85,8 +91,9 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 - **Always cite your source.** Every idea must reference the file and
   line (or section) where you found the signal.
-- **No duplicates.** If an idea already exists in `.preflight/ideate*.md`,
-  skip it. Check EXISTING_DISCOVERED count and read those files first.
+- **No duplicates.** If an idea already exists in any `.preflight/ideate*.md`
+  file (whether from discover or manual ideation), skip it. Check
+  EXISTING_IDEAS count and read those files first to avoid overlap.
 
 ---
 
@@ -177,23 +184,23 @@ Project: PROJECT_NAME
 Source: discover
 
 ## Snapshot
-WHO: [from extraction, or "needs /ideate"]
-TODAY: [from extraction, or "needs /ideate"]
-WHY NOW: [from extraction, or "needs /ideate"]
-MAGIC MOMENT: [needs /ideate]
+WHO: [from extraction, or "needs /pf-ideate"]
+TODAY: [from extraction, or "needs /pf-ideate"]
+WHY NOW: [from extraction, or "needs /pf-ideate"]
+MAGIC MOMENT: [needs /pf-ideate]
 EVIDENCE: repo-signals
 
 ## Source Evidence
 [file:line — exact quote for each signal that supports this idea]
 
 ## Challenge Results
-(needs /ideate)
+(needs /pf-ideate)
 
 ## Sharpened Idea
-(needs /ideate)
+(needs /pf-ideate)
 
 ## Validation Plan
-(needs /ideate)
+(needs /pf-ideate)
 HEREDOC
 ```
 
