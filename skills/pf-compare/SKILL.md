@@ -1,5 +1,5 @@
 ---
-name: compare
+name: pf-compare
 version: 1.0.0
 description: |
   Competitive landscape research. Finds what already exists, maps existing
@@ -15,7 +15,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /compare — Competitive Reality Check
+# /pf-compare — Competitive Reality Check
 
 ```bash
 _DATE=$(date +%Y-%m-%d)

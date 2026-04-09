@@ -1,5 +1,5 @@
 ---
-name: ideate
+name: pf-ideate
 version: 1.0.0
 description: |
   Interactive idea validation. Structured brainstorming that stress-tests ideas
@@ -13,7 +13,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /ideate — Idea Validation Partner
+# /pf-ideate — Idea Validation Partner
 
 ```bash
 _SESSION="ideate-$(date +%s)"

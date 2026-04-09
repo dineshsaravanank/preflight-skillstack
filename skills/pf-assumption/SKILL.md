@@ -1,5 +1,5 @@
 ---
-name: assumption
+name: pf-assumption
 version: 1.0.0
 description: |
   Hidden assumption extraction. Surfaces everything that must be true for an
@@ -14,7 +14,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /assumption — Hidden Assumption Extractor
+# /pf-assumption — Hidden Assumption Extractor
 
 ```bash
 _DATE=$(date +%Y-%m-%d)

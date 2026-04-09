@@ -61,6 +61,20 @@ done
 echo ""
 echo "COMPLETED: $_COMPLETED / $_TOTAL"
 
+# Check for existing ideas (ideate files)
+_IDEAS=$(find "$_SAVE_DIR" -name "ideate*.md" -maxdepth 1 2>/dev/null | sort -r)
+_IDEA_COUNT=$(echo "$_IDEAS" | grep -c . 2>/dev/null || echo 0)
+echo ""
+echo "=== EXISTING IDEAS ==="
+echo "IDEA_COUNT: $_IDEA_COUNT"
+if [ "$_IDEA_COUNT" -gt 0 ]; then
+  for f in $_IDEAS; do
+    _TITLE=$(head -1 "$f" | sed 's/^# //')
+    _PHASE=$(grep -m1 '^Phase:' "$f" 2>/dev/null | sed 's/^Phase: //')
+    echo "  $_TITLE | Phase: $_PHASE | $f"
+  done
+fi
+
 # Check for pivot
 if [ -f "$_SAVE_DIR/pivot.md" ]; then
   echo "HAS_PIVOT: yes"
@@ -92,7 +106,11 @@ fi
    Read the pivot file. Ask: "You pivoted earlier. Want to restart the
    cycle with the new direction, or explore something completely new?"
 
-4. If **COMPLETED is 0/6**: Fresh start. Proceed to CYCLE INTRO.
+4. If **COMPLETED is 0/6** and **IDEA_COUNT > 0**: Ideas exist but no cycle
+   started. Read each ideate file and present the IDEAS MENU (see below).
+   Ask the user if they want to double-click on one or start fresh.
+
+5. If **COMPLETED is 0/6** and **IDEA_COUNT is 0**: Fresh start. Proceed to CYCLE INTRO.
 
 ---
 
@@ -107,7 +125,7 @@ phase matters.
 
 - **NOT a replacement for individual skills.** You guide the user through
   the cycle and tell them which skill to run. You do NOT replicate the
-  full depth of `/assumption`, `/ideate`, `/premortem`, etc.
+  full depth of `/pf-assumption`, `/pf-ideate`, `/pf-premortem`, etc.
 - **NOT rigid.** If the user wants to skip a phase or change the order,
   discuss why but ultimately let them. Note what was skipped.
 - **NOT a project manager.** No Gantt charts, no timelines, no status
@@ -124,6 +142,41 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 ---
 
+## IDEAS MENU (when existing ideas found)
+
+Read each ideate file listed in EXISTING IDEAS above. For each idea, extract
+the one-liner (or title), the phase it reached, and any kill signals or
+weak spots. Present them as a numbered list:
+
+```
+EXISTING IDEAS IN THIS PROJECT
+
+1. [one-liner or title]
+   Phase reached: [phase] | Signal: [STRONG/MODERATE/WEAK/INCOMPLETE]
+   Key finding: [one sentence — the most important thing learned]
+
+2. [one-liner or title]
+   ...
+```
+
+Then ask:
+
+> "Found [N] idea(s) from previous sessions. Want to double-click on one
+> of these and run it through the full cycle, or start fresh with
+> something new?"
+
+If the user picks an existing idea:
+- Read the full ideate file for that idea.
+- Pre-populate the tracker with what's already known.
+- Identify which cycle phases are already done (check for matching
+  `.preflight/` files: `assumptions.md`, `premortem.md`, etc.).
+- Present the PROGRESS CHECK showing what's done and what's next.
+- Route them to the next pending phase.
+
+If the user wants to start fresh: Proceed to CYCLE INTRO below.
+
+---
+
 ## CYCLE INTRO (for fresh starts)
 
 Present this:
@@ -134,17 +187,20 @@ Present this:
 >
 > **The cycle:**
 >
-> 1. `/assumption` — What has to be true for this to work?
-> 2. `/ideate` — Make the idea concrete and stress-test it
-> 3. `/premortem` — Imagine it failed. Why?
-> 4. `/compare` — What already exists? Why are you different?
-> 5. `/personas` — Describe your user's actual day
-> 6. `/scope` — Strip it to the smallest thing that works
+> 1. `/pf-assumption` — What has to be true for this to work?
+> 2. `/pf-ideate` — Make the idea concrete and stress-test it
+> 3. `/pf-premortem` — Imagine it failed. Why?
+> 4. `/pf-compare` — What already exists? Why are you different?
+> 5. `/pf-personas` — Describe your user's actual day
+> 6. `/pf-scope` — Strip it to the smallest thing that works
 >
-> At any point, if the idea dies, run `/pivot` to extract what you
+> At any point, if the idea dies, run `/pf-pivot` to extract what you
 > learned and rotate to a new direction.
 >
-> **Start with:** `/assumption`
+> **Don't have an idea yet?** Run `/pf-discover` to mine this repo's docs,
+> TODOs, and issues for ideas worth exploring.
+>
+> **Start with:** `/pf-assumption`
 
 Save the initial tracker:
 
@@ -168,7 +224,7 @@ HEREDOC
 ```
 
 **STOP.** Ask: "Ready? Describe your idea in a few sentences, then
-run `/assumption` to start."
+run `/pf-assumption` to start."
 
 ---
 
@@ -201,7 +257,7 @@ Then update the tracker file with current state.
 
 If the user says the idea isn't working at any point:
 
-1. Say: "That's fine — better to know now. Run `/pivot` to extract
+1. Say: "That's fine — better to know now. Run `/pf-pivot` to extract
    what you learned and explore new directions."
 2. After the pivot, when they return here: reset the tracker. Mark
    the old cycle as pivoted. Start a new cycle with the pivoted idea.

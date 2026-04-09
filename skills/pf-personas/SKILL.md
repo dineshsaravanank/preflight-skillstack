@@ -1,5 +1,5 @@
 ---
-name: personas
+name: pf-personas
 version: 1.0.0
 description: |
   Deep user persona development. Not marketing personas — a real person's
@@ -14,7 +14,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /personas — Describe Your User's Tuesday at 2pm
+# /pf-personas — Describe Your User's Tuesday at 2pm
 
 ```bash
 _DATE=$(date +%Y-%m-%d)

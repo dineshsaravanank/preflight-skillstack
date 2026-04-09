@@ -18,7 +18,7 @@ echo ""
 
 # --- Test 1: All skill directories exist ---
 echo "Skill directories:"
-for skill in ideate assumption premortem compare personas scope pivot preflight; do
+for skill in pf-ideate pf-assumption pf-premortem pf-compare pf-personas pf-scope pf-pivot preflight pf-discover; do
   if [ -f "$SKILLS_DIR/$skill/SKILL.md" ]; then
     pass "$skill/SKILL.md exists"
   else
@@ -40,7 +40,7 @@ echo ""
 
 # --- Test 3: Each skill has required sections ---
 echo "Required sections:"
-for skill in ideate assumption premortem compare personas scope pivot preflight; do
+for skill in pf-ideate pf-assumption pf-premortem pf-compare pf-personas pf-scope pf-pivot preflight pf-discover; do
   file="$SKILLS_DIR/$skill/SKILL.md"
   [ ! -f "$file" ] && continue
 
@@ -163,20 +163,20 @@ else
 fi
 echo ""
 
-# --- Test 5b: /ideate saves to canonical ideate.md ---
+# --- Test 5b: /pf-ideate saves to canonical ideate.md ---
 echo "Canonical filename:"
-ideate_file="$SKILLS_DIR/ideate/SKILL.md"
+ideate_file="$SKILLS_DIR/pf-ideate/SKILL.md"
 if grep -q "SAVE_DIR/ideate.md" "$ideate_file"; then
-  pass "/ideate saves to ideate.md (canonical)"
+  pass "/pf-ideate saves to ideate.md (canonical)"
 else
-  fail "/ideate doesn't save to canonical ideate.md"
+  fail "/pf-ideate doesn't save to canonical ideate.md"
 fi
 echo ""
 
 # --- Test 6: Setup script handles all skills ---
 echo "Setup script:"
 setup="$REPO_DIR/setup"
-for skill in ideate assumption premortem compare personas scope pivot preflight; do
+for skill in pf-ideate pf-assumption pf-premortem pf-compare pf-personas pf-scope pf-pivot preflight pf-discover; do
   if grep -q "$skill" "$setup"; then
     pass "setup includes $skill"
   else
@@ -197,7 +197,7 @@ echo ""
 
 # --- Test 7: Session save uses SAVE_DIR (not hardcoded paths) ---
 echo "State management:"
-for skill in ideate assumption premortem compare personas scope pivot preflight; do
+for skill in pf-ideate pf-assumption pf-premortem pf-compare pf-personas pf-scope pf-pivot preflight pf-discover; do
   file="$SKILLS_DIR/$skill/SKILL.md"
   [ ! -f "$file" ] && continue
 

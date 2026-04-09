@@ -1,5 +1,5 @@
 ---
-name: premortem
+name: pf-premortem
 version: 1.0.0
 description: |
   Pre-mortem failure analysis. Imagines the idea has already failed and works
@@ -14,7 +14,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /premortem — Failure Postmortem (Before You Build)
+# /pf-premortem — Failure Postmortem (Before You Build)
 
 ```bash
 _DATE=$(date +%Y-%m-%d)

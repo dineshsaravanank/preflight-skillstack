@@ -7,7 +7,7 @@ SKILLS_DIR="$SCRIPT_DIR/skills"
 TARGET_BASE="$HOME/.claude/skills"
 SHARED_DIR="$HOME/.preflight"
 
-SKILLS="ideate assumption premortem compare personas scope pivot preflight"
+SKILLS="pf-ideate pf-assumption pf-premortem pf-compare pf-personas pf-scope pf-pivot preflight pf-discover"
 
 # Install shared files (VOICE.md, PROTOCOL.md)
 mkdir -p "$SHARED_DIR"
@@ -53,14 +53,15 @@ for skill in $SKILLS; do
 done
 
 echo ""
-echo "Installed 8 skills: $SKILLS"
+echo "Installed 9 skills: $SKILLS"
 echo ""
 echo "Start a new Claude Code conversation and type:"
 echo "  /preflight       — full validation cycle"
-echo "  /ideate          — just idea validation"
-echo "  /assumption      — hidden assumption check"
-echo "  /premortem       — failure pre-mortem"
-echo "  /compare         — competitive analysis"
-echo "  /personas        — deep user persona"
-echo "  /scope           — ruthless scoping"
-echo "  /pivot           — pivot from a dead idea"
+echo "  /pf-ideate          — just idea validation"
+echo "  /pf-assumption      — hidden assumption check"
+echo "  /pf-premortem       — failure pre-mortem"
+echo "  /pf-compare         — competitive analysis"
+echo "  /pf-personas        — deep user persona"
+echo "  /pf-scope           — ruthless scoping"
+echo "  /pf-pivot           — pivot from a dead idea"
+echo "  /pf-discover        — mine repo docs for ideas"

@@ -29,7 +29,7 @@ CONCERNS: [only if STATUS is DONE_WITH_CONCERNS — list unresolved items]
   answers, or the user needs to do something outside this tool
   (e.g., talk to users, run an experiment).
 - **NEEDS_CONTEXT** — The skill needs input from another skill that
-  hasn't been run yet (e.g., /scope needs /ideate output).
+  hasn't been run yet (e.g., /pf-scope needs /pf-ideate output).
 
 This block lets `/preflight` detect what happened and route correctly.
 

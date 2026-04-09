@@ -1,5 +1,5 @@
 ---
-name: pivot
+name: pf-pivot
 version: 1.0.0
 description: |
   Pivot exploration when an idea dies or stalls. Extracts what was valuable —
@@ -15,7 +15,7 @@ allowed-tools:
   - WebSearch
 ---
 
-# /pivot — The Idea Died. What Did You Learn?
+# /pf-pivot — The Idea Died. What Did You Learn?
 
 ```bash
 _DATE=$(date +%Y-%m-%d)
@@ -207,13 +207,13 @@ week on?"**
 If the user picks one:
 - Run it through a quick stress test: "Who wants this, why now, and
   what's the smallest version?" (3 questions from /ideate, condensed)
-- If it holds up, suggest running `/ideate` on the pivot for full
+- If it holds up, suggest running `/pf-ideate` on the pivot for full
   validation.
 
 If the user picks none:
 - That's fine. Say so: "None of these have enough energy behind them.
   That's a valid outcome. Better to know now."
-- Ask: "Want to go back to first principles with `/ideate` on something
+- Ask: "Want to go back to first principles with `/pf-ideate` on something
   completely new? Or take a break and come back later?"
 
 **STOP.** Present:
@@ -222,7 +222,7 @@ If the user picks none:
 PIVOT RESULT
 
 CHOSEN DIRECTION: [the one they picked, or "none"]
-NEXT STEP: [run /ideate on the pivot / go back to first principles / pause]
+NEXT STEP: [run /pf-ideate on the pivot / go back to first principles / pause]
 INSIGHT TO CARRY FORWARD: [the learning that survives regardless]
 ```
 
@@ -261,7 +261,7 @@ SESSION COMPLETE
 STATUS: [DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT]
 PHASE_REACHED: [last phase completed]
 ARTIFACTS: [files saved — e.g., ".preflight/pivot.md"]
-NEXT: [recommended next action — e.g., "Run /ideate on the chosen pivot"]
+NEXT: [recommended next action — e.g., "Run /pf-ideate on the chosen pivot"]
 CONCERNS: [only if DONE_WITH_CONCERNS — list unresolved items]
 ```
 
