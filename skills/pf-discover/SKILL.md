@@ -33,14 +33,14 @@ else
   echo "SAVE_DIR: $_SAVE_DIR"
   echo "ROOT: $_ROOT"
 
-  # Count existing discover ideas so we don't create duplicates
-  _EXISTING=$(find "$_SAVE_DIR" -maxdepth 1 -name "ideate-discover-*.md" 2>/dev/null | wc -l | tr -d ' ')
-  echo "EXISTING_DISCOVERED: $_EXISTING"
+  # Count all existing ideas (from discover AND manual ideation) to avoid duplicates
+  _EXISTING=$(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" 2>/dev/null | wc -l | tr -d ' ')
+  echo "EXISTING_IDEAS: $_EXISTING"
   if [ "$_EXISTING" -gt 0 ]; then
     echo "EXISTING_FILES:"
     while IFS= read -r -d '' f; do
       echo "  $(head -1 "$f" | sed 's/^# //') — $f"
-    done < <(find "$_SAVE_DIR" -maxdepth 1 -name "ideate-discover-*.md" -print0 2>/dev/null | sort -z -r)
+    done < <(find "$_SAVE_DIR" -maxdepth 1 -name "ideate*.md" -print0 2>/dev/null | sort -z -r)
   fi
 
   # Load shared voice and protocol
@@ -91,9 +91,9 @@ Follow the **VOICE** and **PROTOCOL** guidelines printed above. In addition:
 
 - **Always cite your source.** Every idea must reference the file and
   line (or section) where you found the signal.
-- **No duplicates.** If an idea already exists in
-  `.preflight/ideate-discover-*.md`, skip it. Check `EXISTING_DISCOVERED`
-  and read those discover-generated files first to avoid overlap.
+- **No duplicates.** If an idea already exists in any `.preflight/ideate*.md`
+  file (whether from discover or manual ideation), skip it. Check
+  `EXISTING_IDEAS` and read those files first to avoid overlap.
 
 ---
 
